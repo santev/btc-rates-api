@@ -2,7 +2,7 @@ version: '3.7'
 services:
     database:
         image: 'mysql:5.7'
-        command: ['--default-character-set=utf8','--default-collation=utf8_general_ci','--default-authentication-plugin=mysql_native_password']
+        command: ["--default-authentication-plugin=mysql_native_password", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_general_ci"]
         environment:
             MYSQL_DATABASE: btc_db
             MYSQL_USER: btc_user
