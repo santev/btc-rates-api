@@ -15,3 +15,10 @@ framework:
     #fragments: true
     php_errors:
         log: true
+
+    http_client:
+        scoped_clients:
+            stock_api:
+                base_uri: 'https://pro-api.coinmarketcap.com/'
+                headers: ['X-CMC_PRO_API_KEY: %env(CMC_PRO_API_KEY)%', 'Accepts: application/json']
+                
