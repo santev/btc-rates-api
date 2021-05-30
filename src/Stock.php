@@ -9,6 +9,7 @@
 namespace App;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Description of Stock
@@ -49,16 +50,15 @@ class Stock {
     public function getQuotes() {
         $response = $this->stock->request(
                 'GET',
-                '/v1/cryptocurrency/quotes/latest'
-                ,[
+                '/v1/cryptocurrency/quotes/latest',
+                [
                     'query' => [
-                        'id' => '2781,2790,2787',//USD,EUR,CNY
-                        'convert'=>'BTC'
+                        'id' => '2781,2790,2787', //USD,EUR,CNY
+                        'convert' => 'BTC'
                     ]
                 ]
-                
         );
-        
+
         $status_code = $response->getStatusCode();
         if (200 !== $status_code) {
             // handle the HTTP request error (e.g. retry the request)
@@ -71,13 +71,6 @@ class Stock {
             $content = $response->toArray(); // transforms the response JSON content into a PHP array
         }
         return $content;
-    }
-
-    public function updQuotes() {
-        
-        $quotes_arr = $this->getQuotes();
-        
-        return $quotes_arr;
     }
 
 }
