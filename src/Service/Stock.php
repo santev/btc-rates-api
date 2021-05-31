@@ -6,10 +6,14 @@
  * and open the template in the editor.
  */
 
-namespace App;
+namespace App\Service;
 
+use App\Entity\Quotes;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\QuotesRepository;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Description of Stock
@@ -19,10 +23,17 @@ use Symfony\Component\HttpFoundation\Response;
 class Stock {
 
     private $stock;
-    private $endpoint;
+    private $doctrine;
+    private $validator;
 
-    public function __construct(HttpClientInterface $stockApi) {
+    public function __construct(
+            HttpClientInterface $stockApi,
+            EntityManagerInterface $entityManager,
+            ValidatorInterface $validator
+    ) {
         $this->stock = $stockApi;
+        $this->doctrine = $entityManager;
+        $this->validator = $validator;
     }
 
     public function getKeyInfo(): array {
@@ -71,6 +82,37 @@ class Stock {
             $content = $response->toArray(); // transforms the response JSON content into a PHP array
         }
         return $content;
+    }
+
+    public function updateQuotes($quotes_arr) {
+
+        $entityManager = $this->doctrine;
+
+        if (array_key_exists('data', $quotes_arr)) {
+            foreach ($quotes_arr['data'] as $cmc_id => $cmc_arr) {
+                $quotes = new Quotes();
+                $quotes->setCmcId($cmc_id);
+                $quotes->setName($cmc_arr['name']);
+                $quotes->setSymbol($cmc_arr['symbol']);
+                $quotes->setSlug($cmc_arr['slug']);
+                $quotes->setLastUpdated(\DateTime::createFromFormat('Y-m-d\TH:i:s.vO', $cmc_arr['last_updated']));
+                $quotes->setBTCPrice($cmc_arr['quote']['BTC']['price']);
+                $quotes->setPriceLastUpdated(\DateTime::createFromFormat('Y-m-d\TH:i:s.vO', $cmc_arr['quote']['BTC']['last_updated']));
+
+                $errors = $this->validator->validate($quotes);
+                if (count($errors) > 0) {
+                    return new Response((string) $errors, 400);
+                }
+
+                $entityManager->persist($quotes);
+            }
+        }
+
+        $entityManager->flush();
+
+        
+        
+        return $quotes->getId();
     }
 
 }

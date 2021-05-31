@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Stock;
+use App\Service\Stock;
 use App\Repository\QuotesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
