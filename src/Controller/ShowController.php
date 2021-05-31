@@ -33,8 +33,8 @@ class ShowController extends AbstractController {
             return new Response((string) 'Period date format error!', 400);
         } else {
             $period = [
-                'start' => $start->format('Y-m-d H:i:s.000'),
-                'end' => $end->format('Y-m-d H:i:s.999')
+                'start' => $start->format('Y-m-d H:i:s'),
+                'end' => $end->format('Y-m-d H:i:s')
             ];
         }
         
