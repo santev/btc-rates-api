@@ -27,14 +27,14 @@ class ShowController extends AbstractController {
     public function chart(Stock $stock, string $pair = 'btc-usd', string $interval, Request $request, QuotesRepository $quotesRepository): Response {
 
         //Validation of submitted date period values.
-        $start = \DateTime::createFromFormat('Y-m-d H:i', $request->query->get('start-date'));
-        $end = \DateTime::createFromFormat('Y-m-d H:i', $request->query->get('end-date'));
+        $start = \DateTime::createFromFormat('Y-m-d H:i:s', $request->query->get('start-date'));
+        $end = \DateTime::createFromFormat('Y-m-d H:i:s', $request->query->get('end-date'));
         if (!is_object($start) || !is_object($end)) {
             return new Response((string) 'Period date format error!', 400);
         } else {
             $period = [
-                'start' => $start->format('Y-m-d H:00:00.000'),
-                'end' => $end->format('Y-m-d H:59:59.999')
+                'start' => $start->format('Y-m-d H:i:s.000'),
+                'end' => $end->format('Y-m-d H:i:s.999')
             ];
         }
         
