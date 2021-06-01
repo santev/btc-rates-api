@@ -1,5 +1,5 @@
 # btc-rates-api
-API to API Symfony 5 application
+API to API, Symfony 5 application
 
 Application setup manual:
 
