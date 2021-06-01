@@ -37,8 +37,7 @@ class Stock {
     }
 
     public function getKeyInfo(): array {
-        #for terminal test: curl -H "X-CMC_PRO_API_KEY: b03cacc44-28a1-4f2c-8507-daceb38989a6" -H "Accept: application/json" -G https://pro-api.coinmarketcap.com/v1/key/info
-
+        #=)
         $response = $this->stock->request(
                 'GET',
                 '/v1/key/info',
