@@ -1,7 +1,7 @@
 # btc-rates-api
-API to API, Symfony 5 application
+API to API, Symfony 5 application (proxy API). It allows you to collect data on Bitcoin quotes for USD, EUR, CNY, and so on. Takes the data on the cryptocurrency exchange and stores it in a local database for subsequent provision at the request of the client.
 
-Application setup manual:
+# Application setup manual:
 
 1) Register a developer account at https://pro.coinmarketcap.com/signup/ and get an API key.
 2) Install Docker.
